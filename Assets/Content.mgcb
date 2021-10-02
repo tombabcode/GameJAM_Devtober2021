@@ -1,0 +1,28 @@
+
+#----------------------------- Global Properties ----------------------------#
+
+/outputDir:../bin/Assets
+/intermediateDir:../obj/Assets
+/platform:Windows
+/config:
+/profile:Reach
+/compress:False
+
+#-------------------------------- References --------------------------------#
+
+
+#---------------------------------- Content ---------------------------------#
+
+#begin Fonts/default.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/default.spritefont
+
+#begin Fonts/Kavivanar-Regular.ttf
+/copy:Fonts/Kavivanar-Regular.ttf
+
+#begin Fonts/SIL Open Font License.txt
+/copy:Fonts/SIL Open Font License.txt
+

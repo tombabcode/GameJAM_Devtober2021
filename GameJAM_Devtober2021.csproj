@@ -9,6 +9,23 @@
   <ItemGroup>
     <PackageReference Include="MonoGame.Framework.Content.Pipeline" Version="3.8.0.1641" />
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.0.1641" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Assets\Levels\warehouse_0\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Data\level_0.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Language\lang_en.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Language\lang_pl.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

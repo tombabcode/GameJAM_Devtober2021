@@ -11,7 +11,7 @@ namespace GameJAM_Devtober2021.System.Scenes {
         private InputController _input;
         private SceneController _scene;
 
-        public CombatScene(ConfigController config, ContentController content, InputController input, SceneController scene) {
+        public CombatScene(ConfigController config, ContentController content, InputController input, SceneController scene) : base("Combat") {
             _config = config;
             _content = content;
             _input = input;

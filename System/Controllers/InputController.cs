@@ -17,6 +17,9 @@ namespace GameJAM_Devtober2021.System.Controllers {
             _curM = Mouse.GetState( );
         }
 
+        public int MouseDiffX => _curM.X - _preM.X;
+        public int MouseDiffY => _curM.Y - _preM.Y;
+
         public bool IsKeyPressed(Keys key) => _curK.IsKeyDown(key);
         public bool IsKeyPressedOnce(Keys key) => _curK.IsKeyDown(key) && _preK.IsKeyUp(key);
 

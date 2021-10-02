@@ -1,5 +1,6 @@
 ﻿using GameJAM_Devtober2021.System.Scenes;
 using GameJAM_Devtober2021.System.Types;
+using GameJAM_Devtober2021.System.Utils;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
@@ -16,11 +17,29 @@ namespace GameJAM_Devtober2021.System.Controllers {
                 { SceneType.Search, new SearchScene(config, content, input, this) }
             };
 
-            CurrentScene = SceneType.Combat;
+            Logger.Info("Scene controller initialized");
+            ChangeScene(SceneType.Search);
         }
 
         public void ChangeScene(SceneType type) {
+            if (CurrentScene == type) {
+                return;
+            }
+
+            // Hide event
+            GetCurrentScene( ).OnHide( );
+
+            // Change current scene
             CurrentScene = type;
+            SceneBase scene = GetCurrentScene( );
+            
+            // On load
+            if (!scene.IsLoaded) {
+                scene.OnLoad( );
+            }
+
+            // On show
+            scene.OnShow( );
         }
 
         public SceneBase GetCurrentScene( ) {

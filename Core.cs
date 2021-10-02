@@ -2,6 +2,7 @@
 using GameJAM_Devtober2021.System.Utils;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace GameJAM_Devtober2021 {
     public sealed class Core : Game {
@@ -15,10 +16,14 @@ namespace GameJAM_Devtober2021 {
         private SceneController _scene;
 
         public Core() {
+            Logger.Initialize( );
+
             _config = new ConfigController( );
             _content = new ContentController( );
             _input = new InputController( );
             _scene = new SceneController( );
+
+            _config.LoadConfig( );
 
             _deviceMNG = new GraphicsDeviceManager(this);
         }
@@ -27,20 +32,25 @@ namespace GameJAM_Devtober2021 {
             base.Initialize( );
 
             IsMouseVisible = true;
+            Content.RootDirectory = "Assets";
 
-            _deviceMNG.PreferredBackBufferWidth = 800;
-            _deviceMNG.PreferredBackBufferHeight = 600;
+            _deviceMNG.PreferredBackBufferWidth = _config.WindowWidth;
+            _deviceMNG.PreferredBackBufferHeight = _config.WindowHeight;
+            _deviceMNG.IsFullScreen = _config.WindowFullscreen;
             _deviceMNG.ApplyChanges( );
+
+            Logger.Info("Config applied");
 
             _canvas = new SpriteBatch(GraphicsDevice);
 
-            _scene.Initialize(_config, _content, _input);
             _content.Initialize(Content, _canvas, GraphicsDevice);
-
             _content.LoadAssets( );
+
+            _scene.Initialize(_config, _content, _input);
 
             DisplayHelper.Canvas = _canvas;
             DisplayHelper.Device = GraphicsDevice;
+            LanguageHelper.LoadLanguage("pl");
         }
 
         protected override void Update(GameTime gameTime) {

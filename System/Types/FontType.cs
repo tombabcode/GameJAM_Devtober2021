@@ -2,7 +2,8 @@
     public enum FontType {
 
         Console,
-        Regular
+        Regular,
+        RegularS
 
     }
 }

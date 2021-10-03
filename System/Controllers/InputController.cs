@@ -17,6 +17,8 @@ namespace GameJAM_Devtober2021.System.Controllers {
             _curM = Mouse.GetState( );
         }
 
+        public int MouseX => _curM.X;
+        public int MouseY => _curM.Y;
         public int MouseDiffX => _curM.X - _preM.X;
         public int MouseDiffY => _curM.Y - _preM.Y;
 

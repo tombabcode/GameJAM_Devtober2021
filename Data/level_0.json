@@ -1,4 +1,13 @@
 ﻿{
 	"LevelID": "warehouse_0",
-	"LevelName": "level_warehouse"
+	"LevelName": "level_warehouse",
+	"LevelSpawnX": 113,
+	"LevelSpawnY": 20,
+	"Objects": [
+		{
+			"ID": "toolbox",
+			"X": 97,
+			"Y": 34
+		}
+	]
 }

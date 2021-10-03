@@ -1,9 +1,15 @@
-﻿using GameJAM_Devtober2021.System.Types;
+﻿using GameJAM_Devtober2021.System.Models;
+using GameJAM_Devtober2021.System.Textures;
+using GameJAM_Devtober2021.System.Types;
 using GameJAM_Devtober2021.System.Utils;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace GameJAM_Devtober2021.System.Controllers {
     public class ContentController {
@@ -15,9 +21,19 @@ namespace GameJAM_Devtober2021.System.Controllers {
 
         private SpriteFont _fontConsole;
         private SpriteFont _fontRegular;
+        private SpriteFont _fontRegularSmall;
 
         public Texture2D TEXPixel { get; private set; }
-        
+        public TextureDictionary TEXUI { get; private set; }
+
+        // Level
+        public LevelModel LevelModel { get; private set; }
+        public Texture2D TEXLevel { get; private set; }
+
+        // Items
+        public List<ObjectDataModel> ObjectsData{ get; private set; }
+        public Dictionary<string, TextureBase> TEXObjects { get; private set; }
+
         public void Initialize(ContentManager content, SpriteBatch canvas, GraphicsDevice device) {
             _content = content;
             Canvas = canvas;
@@ -29,6 +45,7 @@ namespace GameJAM_Devtober2021.System.Controllers {
         public SpriteFont GetFont(FontType type) {
             return type switch {
                 FontType.Regular => _fontRegular,
+                FontType.RegularS => _fontRegularSmall,
                 FontType.Console => _fontConsole,
                 _ => _fontRegular,
             };
@@ -36,12 +53,46 @@ namespace GameJAM_Devtober2021.System.Controllers {
 
         public void LoadAssets( ) {
             _fontRegular = _content.Load<SpriteFont>(Path.Combine("Fonts", "default"));
+            _fontRegularSmall = _content.Load<SpriteFont>(Path.Combine("Fonts", "default.small"));
             _fontConsole = _content.Load<SpriteFont>(Path.Combine("Fonts", "console"));
 
             TEXPixel = new Texture2D(Device, 1, 1);
             TEXPixel.SetData(new Color[] { Color.White });
 
+            TEXUI = new TextureDictionary(_content.Load<Texture2D>("ui"), new Dictionary<string, Rectangle>( ) {
+                { "text_bubble_left", new Rectangle(0, 0, 8, 16) },
+                { "text_bubble_right", new Rectangle(8, 0, 8, 16) },
+                { "text_bubble_middle", new Rectangle(16, 0, 8, 16) }
+            });
+
+            // Load items data
+            string data = File.ReadAllText(Path.Combine("Assets", "Objects", "data.json"));
+            ObjectsData = JsonConvert.DeserializeObject<List<ObjectDataModel>>(data);
+
             Logger.Info("Content loaded");
+        }
+
+        public void LoadLevelAssets(string id) {
+            TEXLevel = _content.Load<Texture2D>(Path.Combine("Levels", id, "level"));
+        }
+
+        public TextureBase LoadLevelAsset(string id, out ObjectDataModel model) {
+            // Try to find model
+            model = ObjectsData.FirstOrDefault(item => item.ID == id);
+
+            // If model was not found, skip
+            if (model == null) {
+                Logger.Error($"Level asset loading failure. Couldn't find '{id}' model!");
+                return null;
+            }
+
+            string path = Path.Combine("Objects", model.Texture.Asset);
+
+            switch (model.Texture.Type.ToLower( )) {
+                case "static": return new TextureStatic(_content.Load<Texture2D>(path));
+                case "tileset": return new TextureTileset(_content.Load<Texture2D>(path), model.Texture.Columns, model.Texture.Rows);
+                default: return null;
+            }
         }
 
     }

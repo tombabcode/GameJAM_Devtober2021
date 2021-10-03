@@ -7,6 +7,8 @@ namespace GameJAM_Devtober2021.System.Controllers {
         public Vector2 Target { get; private set; }
         public Vector2 Offset { get; private set; }
         public float Scale { get; private set; }
+        public float ScaleMin { get; set; } = 1.00f;
+        public float ScaleMax { get; set; } = 4.00f;
 
         public CameraController( ) {
             Target = Vector2.Zero;
@@ -27,24 +29,26 @@ namespace GameJAM_Devtober2021.System.Controllers {
         }
 
         public void LookBy(float x, float y) {
-            Target += new Vector2(x, y);
+            Target += new Vector2(-x, y) / Scale;
         }
 
         public void ZoomIn(float value) {
             Scale += value;
+
+            if (Scale >= ScaleMax) Scale = ScaleMax;
         }
 
         public void ZoomOut(float value) {
             Scale -= value;
-            if (Scale <= 0) {
-                Scale = 0.25f;
-            }
+
+            if (Scale <= ScaleMin) Scale = ScaleMin;
+            if (Scale <= 0) Scale = 1.0f;
         }
 
         public void Update( ) {
-            Matrix = Matrix.CreateScale(Scale) *
-                     Matrix.CreateTranslation(new Vector3(Offset, 0)) *
-                     Matrix.CreateTranslation(new Vector3(Target, 0));
+            Matrix = Matrix.CreateTranslation(new Vector3(-Target.X, Target.Y, 0)) *
+                     Matrix.CreateScale(Scale) *
+                     Matrix.CreateTranslation(new Vector3(Offset, 0));
         }
 
     }

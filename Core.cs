@@ -48,9 +48,8 @@ namespace GameJAM_Devtober2021 {
 
             _scene.Initialize(_config, _content, _input);
 
-            DisplayHelper.Canvas = _canvas;
-            DisplayHelper.Device = GraphicsDevice;
-            LanguageHelper.LoadLanguage("pl");
+            DisplayHelper.Content = _content;
+            LanguageHelper.LoadLanguage("en");
         }
 
         protected override void Update(GameTime gameTime) {

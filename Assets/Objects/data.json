@@ -1,0 +1,14 @@
+﻿[
+	{
+		"ID": "toolbox",
+		"Name": "object_toolbox",
+		"IsPickable": false,
+		"IsContainer": true,
+		"Texture": {
+			"Asset": "toolbox",
+			"Type": "tileset",
+			"Columns": 2,
+			"Rows": 1
+		}
+	}
+]

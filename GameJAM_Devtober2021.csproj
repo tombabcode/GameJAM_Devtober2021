@@ -13,10 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Assets\Levels\warehouse_0\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="Data\level_0.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

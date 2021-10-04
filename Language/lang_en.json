@@ -1,4 +1,6 @@
 ﻿{
 	"level_warehouse": "Warehouse",
-	"object_toolbox": "Toolbox"
+	"object_toolbox": "Toolbox",
+	"item_hammer": "Hammer",
+	"ui_inventory": "Inventory"
 }

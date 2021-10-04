@@ -23,6 +23,13 @@ namespace GameJAM_Devtober2021.System.Utils {
             _canvas.End( );
         }
 
+        public static void Box(float x = 0, float y = 0, float width = 1, float height = 1, Color? color = null, AlignType align = AlignType.LT) {
+            Vector2 position = align != AlignType.LT ? AH.GetAlignedPosition(align, x, y, width, height) : new Vector2(x, y);
+            Vector2 scale = new Vector2(width, height);
+
+            _canvas.Draw(Content.TEXPixel, position, null, color ?? Color.White, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
+        }
+
         public static void LevelObject(ObjectModel obj, int? customSkinID = null) {
             TextureBase data = obj.Texture.TextureData;
 

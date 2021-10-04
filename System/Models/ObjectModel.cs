@@ -1,10 +1,12 @@
 ﻿using GameJAM_Devtober2021.System.Textures;
+using System.Collections.Generic;
 
 namespace GameJAM_Devtober2021.System.Models {
     public sealed class ObjectModel {
 
         public TextureInstance Texture { get; private set; }
         public ObjectDataModel DataModel { get; private set; }
+        public List<ItemModel> Items { get; private set; }
 
         public int X { get; private set; }
         public int Y { get; private set; }
@@ -16,7 +18,9 @@ namespace GameJAM_Devtober2021.System.Models {
 
             X = x;
             Y = y;
-            SkinID = 0;
+            SkinID = skinID;
+
+            Items = new List<ItemModel>( );
         }
 
     }

@@ -46,6 +46,21 @@
 #begin Fonts/SourceCodePro-Regular.otf
 /copy:Fonts/SourceCodePro-Regular.otf
 
+#begin Items/data.json
+/copy:Items/data.json
+
+#begin Items/hammer.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Items/hammer.png
+
 #begin Levels/warehouse_0/level.png
 /importer:TextureImporter
 /processor:TextureProcessor

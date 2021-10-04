@@ -41,14 +41,27 @@ namespace GameJAM_Devtober2021.System.Logic {
             try {
                 Objects = new List<ObjectModel>( );
                 LevelModel.Objects.ForEach(obj => {
-                    TextureBase texture = _content.LoadLevelAsset(obj.ID, out ObjectDataModel model);
+                    TextureBase texture = _content.LoadLevelObject(obj.ID, out ObjectDataModel objectModel);
 
-                    if (texture == null || model == null) {
+                    if (texture == null || objectModel == null) {
                         Logger.Error($"Failed level loading on asset '{obj.ID}'!");
                         return;
                     }
 
-                    ObjectModel result = new ObjectModel(texture.GetInstance( ), model, obj.X, obj.Y);
+                    // Load object
+                    ObjectModel result = new ObjectModel(texture.GetInstance( ), objectModel, obj.X, obj.Y);
+
+                    // Load items (if contains
+                    if (obj.Contains != null && obj.Contains.Length > 0) {
+                        for (int i = 0; i < obj.Contains.Length; i++) {
+                            TextureBase itemTexture = _content.LoadLevelItem(obj.Contains[i], out ItemDataModel itemModel);
+                            ItemModel item = new ItemModel(itemTexture.GetInstance( ), itemModel);
+
+                            result.Items.Add(item);
+                        }
+                    }
+
+                    // Return object
                     Objects.Add(result);
                 });
             } catch(Exception e) {

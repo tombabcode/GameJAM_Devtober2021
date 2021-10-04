@@ -32,7 +32,7 @@ namespace GameJAM_Devtober2021.System.Controllers {
 
         // Items
         public List<ObjectDataModel> ObjectsData{ get; private set; }
-        public Dictionary<string, TextureBase> TEXObjects { get; private set; }
+        public List<ItemDataModel> ItemsData { get; private set; }
 
         public void Initialize(ContentManager content, SpriteBatch canvas, GraphicsDevice device) {
             _content = content;
@@ -65,9 +65,13 @@ namespace GameJAM_Devtober2021.System.Controllers {
                 { "text_bubble_middle", new Rectangle(16, 0, 8, 16) }
             });
 
+            // Load object data
+            string dataObj = File.ReadAllText(Path.Combine("Assets", "Objects", "data.json"));
+            ObjectsData = JsonConvert.DeserializeObject<List<ObjectDataModel>>(dataObj);
+
             // Load items data
-            string data = File.ReadAllText(Path.Combine("Assets", "Objects", "data.json"));
-            ObjectsData = JsonConvert.DeserializeObject<List<ObjectDataModel>>(data);
+            string dataItems = File.ReadAllText(Path.Combine("Assets", "Items", "data.json"));
+            ItemsData = JsonConvert.DeserializeObject<List<ItemDataModel>>(dataItems);
 
             Logger.Info("Content loaded");
         }
@@ -76,17 +80,36 @@ namespace GameJAM_Devtober2021.System.Controllers {
             TEXLevel = _content.Load<Texture2D>(Path.Combine("Levels", id, "level"));
         }
 
-        public TextureBase LoadLevelAsset(string id, out ObjectDataModel model) {
+        public TextureBase LoadLevelObject(string id, out ObjectDataModel model) {
             // Try to find model
-            model = ObjectsData.FirstOrDefault(item => item.ID == id);
+            model = ObjectsData.FirstOrDefault(obj => obj.ID == id);
 
             // If model was not found, skip
             if (model == null) {
-                Logger.Error($"Level asset loading failure. Couldn't find '{id}' model!");
+                Logger.Error($"Level asset loading failure. Couldn't find object '{id}' model!");
                 return null;
             }
 
             string path = Path.Combine("Objects", model.Texture.Asset);
+
+            switch (model.Texture.Type.ToLower( )) {
+                case "static": return new TextureStatic(_content.Load<Texture2D>(path));
+                case "tileset": return new TextureTileset(_content.Load<Texture2D>(path), model.Texture.Columns, model.Texture.Rows);
+                default: return null;
+            }
+        }
+
+        public TextureBase LoadLevelItem(string id, out ItemDataModel model) {
+            // Try to find model
+            model = ItemsData.FirstOrDefault(item => item.ID == id);
+
+            // If model was not found, skip
+            if (model == null) {
+                Logger.Error($"Level asset loading failure. Couldn't find item '{id}' model!");
+                return null;
+            }
+
+            string path = Path.Combine("Items", model.Texture.Asset);
 
             switch (model.Texture.Type.ToLower( )) {
                 case "static": return new TextureStatic(_content.Load<Texture2D>(path));

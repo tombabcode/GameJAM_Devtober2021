@@ -1,4 +1,6 @@
 ﻿{
 	"level_warehouse": "Magazyn",
-	"object_toolbox": "Skrzynka z narzedziami"
+	"object_toolbox": "Skrzynka z narzedziami",
+	"item_hammer": "Mlotek",
+	"ui_inventory": "Ekwipunek"
 }

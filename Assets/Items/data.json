@@ -1,0 +1,11 @@
+﻿[
+	{
+		"ID": "hammer",
+		"Name": "item_hammer",
+		"Categories": ["tool"],
+		"Texture": {
+			"Asset": "hammer",
+			"Type": "static"
+		}
+	}
+]

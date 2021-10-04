@@ -42,6 +42,7 @@ namespace GameJAM_Devtober2021.System.Scenes {
 
         // Selected object
         private ObjectModel _selectedObject;
+        private ObjectModel _openedObject;
         private TextBubble _UISelectedObjectBubble;
 
         public SearchScene(ConfigController config, ContentController content, InputController input, SceneController scene) : base("Search") {
@@ -90,10 +91,10 @@ namespace GameJAM_Devtober2021.System.Scenes {
         }
 
         public override void Update(GameTime time) {
-            _selectedObject = null;
-
             _input.Update( );
             _camera.Update( );
+
+            if (_openedObject != null) { return; }
 
             if (_input.IsRMBPressed( )) _camera.LookBy(_input.MouseDiffX, _input.MouseDiffY);
             if (_input.HasScrolledUp( )) _camera.ZoomIn(0.25f);
@@ -108,7 +109,8 @@ namespace GameJAM_Devtober2021.System.Scenes {
             _level.Objects.ForEach(obj => {
                 Rectangle source = obj.Texture.TextureData.GetSource(obj.SkinID);
 
-                if (_mouseX >= obj.X && _mouseX <= obj.X + source.Width &&
+                if (_input.MouseX >= 0 && _input.MouseX <= _config.WindowWidth && _input.MouseY >= 0 && _input.MouseY <= _config.WindowHeight &&
+                    _mouseX >= obj.X && _mouseX <= obj.X + source.Width &&
                     _mouseY >= -obj.Y && _mouseY <= -obj.Y + source.Height) {
                     selection = obj;
                     return;
@@ -121,6 +123,11 @@ namespace GameJAM_Devtober2021.System.Scenes {
             } else if (selection == null) {
                 _selectedObject = null;
                 _UISelectedObjectBubble = null;
+            }
+
+            // Open selected object
+            if (_input.IsLMBPressedOnce( ) && _selectedObject != null && _selectedObject.Items.Count > 0) {
+                _openedObject = _selectedObject;
             }
         }
 
@@ -136,15 +143,42 @@ namespace GameJAM_Devtober2021.System.Scenes {
             _level.Objects.ForEach(obj => {
                 DH.LevelObject(obj);
 
-                if (_selectedObject == obj) {
-                    DH.LevelObject(obj, 1);
-                }
+                if (_selectedObject == obj) DH.LevelObject(obj, 1);
             });
         }
 
         private void RenderUIScene(GameTime time) {
+            // Display text bubble with selected object's name
+            if (_openedObject == null && _UISelectedObjectBubble != null) {
+                float x = _selectedObject.X - _camera.Target.X + _camera.Offset.X;
+                float y = -_selectedObject.Y + _camera.Target.Y + _camera.Offset.Y;
+
+                x = x + (_input.MouseX - x) + 8;
+                y = y + (_input.MouseY - y) + 24;
+
+                if (x < 8) x = 8;
+                if (x + _UISelectedObjectBubble.Width > _config.WindowWidth - 8) x = _config.WindowWidth - 8 - _UISelectedObjectBubble.Width;
+                if (y < 8) y = 8;
+                if (y + _UISelectedObjectBubble.Height > _config.WindowHeight - 8) y = _config.WindowHeight - 8 - _UISelectedObjectBubble.Height;
+
+                _UISelectedObjectBubble.Display(x, y);
+            }
+
+            // Show open container
+            if (_openedObject != null) {
+                DH.Box(0, 0, _config.WindowWidth, _config.WindowHeight, new Color(0, 0, 0, 200));
+                DH.Text(_content.GetFont(FontType.Regular), LANG.Get("ui_inventory"), _config.WindowWidth / 2, 45, align: AlignType.CT);
+
+                int offset = (_openedObject.Items.Count - 1) * 64 / 2;
+                for (int i = 0; i < _openedObject.Items.Count; i++) {
+                    ItemModel item = _openedObject.Items[i];
+
+                    DH.Raw(item.Texture.Get( ), _config.WindowWidth / 2 - offset, _config.WindowHeight / 2, align: AlignType.CM);
+                }
+            }
+
             if (_config.IsDebugMode) {
-                string objectHovered = _selectedObject == null ? "---" : LanguageHelper.Get(_selectedObject.DataModel.Name);
+                string objectHovered = _selectedObject == null ? "---" : LANG.Get(_selectedObject.DataModel.Name);
 
                 DH.Text(_fontConsole, $"Camera Position ({_camera.Target.X:0}, {_camera.Target.Y:0})", 10, 10);
                 DH.Text(_fontConsole, $"Camera Zoom ({_camera.Scale:0.00}x)", 10, 25);
@@ -154,9 +188,6 @@ namespace GameJAM_Devtober2021.System.Scenes {
 
             DH.Text(_fontRegular, $"{_timeLeftMinutes:00}:{_timeLeftSeconds:00}", _config.WindowWidth / 2, 15, align: AlignType.CT);
 
-            // Display text bubble with selected object's name
-            // TODO FIX POSITIONING
-            _UISelectedObjectBubble?.Display( );
         }
 
         public override void Display(GameTime time) {

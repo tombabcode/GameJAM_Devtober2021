@@ -30,17 +30,19 @@ namespace GameJAM_Devtober2021.System.Models.UI {
         private float _textLengthRounded;
         private float _textSegments;
         private float _textOffset;
-        private Vector2 _displayPosition;
+
+        public float Width => _textLengthRounded + 16;
+        public float Height => 16;
 
         private Texture2D _UITex;
         private Rectangle[] _UITexSources;
 
-        public TextBubble(ContentController content, string text, float x, float y, AlignType align = AlignType.RB) {
+        public TextBubble(ContentController content, string text, float x, float y, AlignType align = AlignType.LB) {
             _content = content;
 
             _UITex = content.TEXUI.Texture;
             Align = align;
-            Text = text;
+            Text = text.ToUpper( );
             X = x;
             Y = y;
 
@@ -59,23 +61,24 @@ namespace GameJAM_Devtober2021.System.Models.UI {
                 _content.TEXUI.GetSource("text_bubble_right")
             };
 
-            _displayPosition = _align != AlignType.LT ? AH.GetAlignedPosition(_align, X, Y, _textLengthRounded + SEGMENT_WIDTH * 2, SEGMENT_HEIGHT) : new Vector2(X, Y);
         }
 
         public void Display(float? customX = null, float? customY = null) {
-            float x = customX ?? _displayPosition.X;
-            float y = customY ?? _displayPosition.Y;
+            float x = customX ?? X;
+            float y = customY ?? Y;
+
+            Vector2 pos = _align != AlignType.LT ? AH.GetAlignedPosition(_align, x, y, _textLengthRounded + SEGMENT_WIDTH * 2, SEGMENT_HEIGHT) : new Vector2(x, y);
 
             // Draw left & right bubbles
-            _content.Canvas.Draw(_UITex, new Vector2(x, y), _UITexSources[0], Color.White);
-            _content.Canvas.Draw(_UITex, new Vector2(x + SEGMENT_WIDTH + _textLengthRounded, y), _UITexSources[2], Color.White);
+            _content.Canvas.Draw(_UITex, new Vector2(pos.X, pos.Y), _UITexSources[0], Color.White);
+            _content.Canvas.Draw(_UITex, new Vector2(pos.X + SEGMENT_WIDTH + _textLengthRounded, pos.Y), _UITexSources[2], Color.White);
 
             // Draw middle bubbles
             for (int i = 1; i <= _textSegments; i++)
-                _content.Canvas.Draw(_UITex, new Vector2(x + i * SEGMENT_WIDTH, y), _UITexSources[1], Color.White);
+                _content.Canvas.Draw(_UITex, new Vector2(pos.X + i * SEGMENT_WIDTH, pos.Y), _UITexSources[1], Color.White);
 
             // Draw text
-            _content.Canvas.DrawString(_content.GetFont(FontType.RegularS), Text, new Vector2(x + _textOffset, y), Color.Black);
+            _content.Canvas.DrawString(_content.GetFont(FontType.RegularS), Text, new Vector2(pos.X + _textOffset, pos.Y), Color.Black);
         }
 
     }

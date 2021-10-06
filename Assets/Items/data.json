@@ -3,7 +3,9 @@
 		"ID": "hammer",
 		"Name": "item_hammer",
 		"Categories": ["tool"],
-		"Texture": {
+		"Level": 1,
+		"Rarity": "Common",
+		"TextureData": {
 			"Asset": "hammer",
 			"Type": "static"
 		}

@@ -1,5 +1,5 @@
-﻿namespace GameJAM_Devtober2021.System.Models {
-    public sealed class TextureModel {
+﻿namespace GameJAM_Devtober2021.System.Textures {
+    public class TextureData {
 
         public string Asset { get; set; }
         public string Type { get; set; } = "static";

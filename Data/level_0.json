@@ -3,10 +3,10 @@
 	"LevelName": "level_warehouse",
 	"LevelSpawnX": 113,
 	"LevelSpawnY": 20,
+	"Level": 1,
 	"Objects": [
 		{
 			"ID": "toolbox",
-			"Contains": ["hammer"],
 			"X": 97,
 			"Y": 34
 		}

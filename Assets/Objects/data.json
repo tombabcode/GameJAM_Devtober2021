@@ -5,11 +5,9 @@
 		"IsPickable": false,
 		"IsContainer": true,
 		"Categories": ["tool"],
-		"Texture": {
+		"TextureData": {
 			"Asset": "toolbox",
-			"Type": "tileset",
-			"Columns": 2,
-			"Rows": 1
+			"Type": "static"
 		}
 	}
 ]

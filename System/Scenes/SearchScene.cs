@@ -1,5 +1,7 @@
 ﻿using GameJAM_Devtober2021.System.Controllers;
 using GameJAM_Devtober2021.System.Logic;
+using GameJAM_Devtober2021.System.Logic.Items;
+using GameJAM_Devtober2021.System.Logic.Objects;
 using GameJAM_Devtober2021.System.Models;
 using GameJAM_Devtober2021.System.Models.UI;
 using GameJAM_Devtober2021.System.Types;
@@ -41,8 +43,8 @@ namespace GameJAM_Devtober2021.System.Scenes {
         private RenderTarget2D _sceneCore;
 
         // Selected object
-        private ObjectModel _selectedObject;
-        private ObjectModel _openedObject;
+        private ObjectInstance _objectHovered;
+        private ObjectInstance _objectSelected;
         private TextBubble _UISelectedObjectBubble;
 
         public SearchScene(ConfigController config, ContentController content, InputController input, SceneController scene) : base("Search") {
@@ -94,8 +96,6 @@ namespace GameJAM_Devtober2021.System.Scenes {
             _input.Update( );
             _camera.Update( );
 
-            if (_openedObject != null) { return; }
-
             if (_input.IsRMBPressed( )) _camera.LookBy(_input.MouseDiffX, _input.MouseDiffY);
             if (_input.HasScrolledUp( )) _camera.ZoomIn(0.25f);
             if (_input.HasScrolledDown( )) _camera.ZoomOut(0.25f);
@@ -105,29 +105,30 @@ namespace GameJAM_Devtober2021.System.Scenes {
             _mouseY = (int)((_input.MouseY - _camera.Offset.Y) / _camera.Scale - _camera.Target.Y);
 
             // Update object selection
-            ObjectModel selection = null;
-            _level.Objects.ForEach(obj => {
+            ObjectInstance hover = null;
+            foreach (ObjectInstance obj in _level.Objects) {
                 Rectangle source = obj.Texture.TextureData.GetSource(obj.SkinID);
 
                 if (_input.MouseX >= 0 && _input.MouseX <= _config.WindowWidth && _input.MouseY >= 0 && _input.MouseY <= _config.WindowHeight &&
-                    _mouseX >= obj.X && _mouseX <= obj.X + source.Width &&
-                    _mouseY >= -obj.Y && _mouseY <= -obj.Y + source.Height) {
-                    selection = obj;
-                    return;
+                    _mouseX >= obj.X && _mouseX <= obj.X + source.Width && _mouseY >= -obj.Y && _mouseY <= -obj.Y + source.Height) 
+                {
+                    hover = obj;
+                    break;
                 }
-            });
+            }
 
-            if (selection != null && selection != _selectedObject) {
-                _selectedObject = selection;
-                _UISelectedObjectBubble = new TextBubble(_content, LANG.Get(selection.DataModel.Name), selection.X + 5, -selection.Y + 5);
-            } else if (selection == null) {
-                _selectedObject = null;
+            // Set hovered object
+            if (hover != null && hover != _objectHovered) {
+                _objectHovered = hover;
+                _UISelectedObjectBubble = new TextBubble(_content, LANG.Get(hover.Data.Name), hover.X + 5, -hover.Y + 5);
+            } else if (hover == null) {
+                _objectHovered = null;
                 _UISelectedObjectBubble = null;
             }
 
-            // Open selected object
-            if (_input.IsLMBPressedOnce( ) && _selectedObject != null && _selectedObject.Items.Count > 0) {
-                _openedObject = _selectedObject;
+            // Set selected object
+            if (_objectHovered != null && _input.IsLMBPressedOnce( )  && _objectHovered.Items.Count > 0) {
+                _objectSelected = _objectHovered;
             }
         }
 
@@ -140,50 +141,46 @@ namespace GameJAM_Devtober2021.System.Scenes {
             DH.Raw(_content.TEXLevel, 0, 0, align: AlignType.LB);
 
             // Display objects
-            _level.Objects.ForEach(obj => {
-                DH.LevelObject(obj);
+            foreach (ObjectInstance obj in _level.Objects) {
+                DH.Texture(obj.Texture, obj.X, -obj.Y);
+            }
 
-                if (_selectedObject == obj) DH.LevelObject(obj, 1);
-            });
+            // Display text bubble with selected object's name
+            if (_objectHovered != null) {
+                DH.Text(
+                    _content.GetFont(FontType.RegularS), 
+                    LANG.Get(_objectHovered.Data.Name), 
+                    _objectHovered.X + _objectHovered.Width / 2,
+                    5,
+                    Color.White * 0.5f,
+                    AlignType.CT
+                );
+            }
         }
 
         private void RenderUIScene(GameTime time) {
-            // Display text bubble with selected object's name
-            if (_openedObject == null && _UISelectedObjectBubble != null) {
-                float x = _selectedObject.X - _camera.Target.X + _camera.Offset.X;
-                float y = -_selectedObject.Y + _camera.Target.Y + _camera.Offset.Y;
-
-                x = x + (_input.MouseX - x) + 8;
-                y = y + (_input.MouseY - y) + 24;
-
-                if (x < 8) x = 8;
-                if (x + _UISelectedObjectBubble.Width > _config.WindowWidth - 8) x = _config.WindowWidth - 8 - _UISelectedObjectBubble.Width;
-                if (y < 8) y = 8;
-                if (y + _UISelectedObjectBubble.Height > _config.WindowHeight - 8) y = _config.WindowHeight - 8 - _UISelectedObjectBubble.Height;
-
-                _UISelectedObjectBubble.Display(x, y);
-            }
-
             // Show open container
-            if (_openedObject != null) {
+            if (_objectSelected != null) {
                 DH.Box(0, 0, _config.WindowWidth, _config.WindowHeight, new Color(0, 0, 0, 200));
                 DH.Text(_content.GetFont(FontType.Regular), LANG.Get("ui_inventory"), _config.WindowWidth / 2, 45, align: AlignType.CT);
 
-                int offset = (_openedObject.Items.Count - 1) * 64 / 2;
-                for (int i = 0; i < _openedObject.Items.Count; i++) {
-                    ItemModel item = _openedObject.Items[i];
+                int offset = (_objectSelected.Items.Count - 1) * 64 / 2;
+                for (int i = 0; i < _objectSelected.Items.Count; i++) {
+                    ItemInstance item = _objectSelected.Items[i];
 
                     DH.Raw(item.Texture.Get( ), _config.WindowWidth / 2 - offset, _config.WindowHeight / 2, align: AlignType.CM);
                 }
             }
 
             if (_config.IsDebugMode) {
-                string objectHovered = _selectedObject == null ? "---" : LANG.Get(_selectedObject.DataModel.Name);
+                string objectHovered = _objectHovered == null ? "---" : LANG.Get(_objectHovered.Data.Name);
+                string objectSelected = _objectSelected == null ? "---" : LANG.Get(_objectSelected.Data.Name);
 
                 DH.Text(_fontConsole, $"Camera Position ({_camera.Target.X:0}, {_camera.Target.Y:0})", 10, 10);
                 DH.Text(_fontConsole, $"Camera Zoom ({_camera.Scale:0.00}x)", 10, 25);
                 DH.Text(_fontConsole, $"Mouse Postiion ({_mouseX}, {-_mouseY})", 10, 40);
-                DH.Text(_fontConsole, $"Object hover ({objectHovered})", 10, 55);
+                DH.Text(_fontConsole, $"Object (hover) ({objectHovered})", 10, 55);
+                DH.Text(_fontConsole, $"       (selection) ({objectSelected})", 10, 70);
             }
 
             DH.Text(_fontRegular, $"{_timeLeftMinutes:00}:{_timeLeftSeconds:00}", _config.WindowWidth / 2, 15, align: AlignType.CT);

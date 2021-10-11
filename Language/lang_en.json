@@ -2,5 +2,13 @@
 	"level_warehouse": "Warehouse",
 	"object_toolbox": "Toolbox",
 	"item_hammer": "Hammer",
-	"ui_inventory": "Inventory"
+	"item_screwdriver": "Screwdriver",
+	"ui_inventory": "Inventory",
+	"move_swing": "Swing",
+	"move_prepare": "Prepare",
+	"move_hit": "Hit",
+	"move_stab": "Stab",
+	"btn_newgame": "New game",
+	"btn_settings": "Settings",
+	"btn_exit": "Exit"
 }

@@ -15,8 +15,13 @@ namespace GameJAM_Devtober2021 {
         private InputController _input;
         private SceneController _scene;
 
+        public static Action OnExit { get; private set; }
+
         public Core() {
             Logger.Initialize( );
+            LanguageHelper.LoadLanguage("en");
+
+            OnExit = () => Exit( );
 
             _config = new ConfigController( );
             _content = new ContentController( );
@@ -49,7 +54,6 @@ namespace GameJAM_Devtober2021 {
             _scene.Initialize(_config, _content, _input);
 
             DisplayHelper.Content = _content;
-            LanguageHelper.LoadLanguage("en");
         }
 
         protected override void Update(GameTime gameTime) {

@@ -3,8 +3,8 @@
 namespace GameJAM_Devtober2021.System.Controllers {
     public class ConfigController {
 
-        public const int DEF_WindowWidth = 800;
-        public const int DEF_WindowHeight = 600;
+        public const int DEF_WindowWidth = 1280;
+        public const int DEF_WindowHeight = 720;
         public const bool DEF_WindowFullscreen = false;
 
         public const bool DEF_DebugMode = true;
@@ -12,6 +12,12 @@ namespace GameJAM_Devtober2021.System.Controllers {
         public int WindowWidth { get; private set; }
         public int WindowHeight { get; private set; }
         public bool WindowFullscreen { get; private set; }
+
+        public int ViewWidth { get; private set; } = 400;
+        public int ViewHeight { get; private set; } = 400;
+
+        public float ViewFactorWidth => 1f * WindowWidth / ViewWidth;
+        public float ViewFactorHeight => 1f * WindowHeight / ViewHeight;
 
         public bool IsDebugMode { get; private set; }
 
@@ -23,6 +29,7 @@ namespace GameJAM_Devtober2021.System.Controllers {
             IsDebugMode = DEF_DebugMode;
 
             Logger.Info("Config loaded");
+            Logger.Info($"View factor (X: {ViewFactorWidth:0.000}, Y: {ViewFactorHeight:0.000}");
         }
 
     }

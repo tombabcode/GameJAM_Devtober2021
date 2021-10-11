@@ -45,7 +45,9 @@ namespace GameJAM_Devtober2021.System.Scenes {
         // Selected object
         private ObjectInstance _objectHovered;
         private ObjectInstance _objectSelected;
-        private TextBubble _UISelectedObjectBubble;
+
+        // Main item that will fight
+        private ItemInstance _primaryItem;
 
         public SearchScene(ConfigController config, ContentController content, InputController input, SceneController scene) : base("Search") {
             _config = config;
@@ -120,15 +122,15 @@ namespace GameJAM_Devtober2021.System.Scenes {
             // Set hovered object
             if (hover != null && hover != _objectHovered) {
                 _objectHovered = hover;
-                _UISelectedObjectBubble = new TextBubble(_content, LANG.Get(hover.Data.Name), hover.X + 5, -hover.Y + 5);
             } else if (hover == null) {
                 _objectHovered = null;
-                _UISelectedObjectBubble = null;
             }
 
             // Set selected object
             if (_objectHovered != null && _input.IsLMBPressedOnce( )  && _objectHovered.Items.Count > 0) {
                 _objectSelected = _objectHovered;
+                _scene.ChangeScene(SceneType.Combat);
+                ((CombatScene)_scene.GetCurrentScene( )).SetActor(_objectSelected.Items[0]);
             }
         }
 

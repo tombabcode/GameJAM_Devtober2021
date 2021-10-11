@@ -8,17 +8,18 @@ namespace GameJAM_Devtober2021.System.Controllers {
     public class SceneController {
 
         private Dictionary<SceneType, SceneBase> _scenes;
-        public SceneType CurrentScene { get; private set; }
+        public SceneType CurrentScene { get; private set; } = SceneType.Default;
 
         public void Initialize(ConfigController config, ContentController content, InputController input) {
             _scenes = new Dictionary<SceneType, SceneBase>( ) {
+                { SceneType.MainMenu, new MainMenuScene(config, content, input, this) },
                 { SceneType.Gameplay, new GameplayScene(config, content, input, this) },
                 { SceneType.Combat, new CombatScene(config, content, input, this) },
                 { SceneType.Search, new SearchScene(config, content, input, this) }
             };
 
             Logger.Info("Scene controller initialized");
-            ChangeScene(SceneType.Search);
+            ChangeScene(SceneType.MainMenu);
         }
 
         public void ChangeScene(SceneType type) {
@@ -27,7 +28,7 @@ namespace GameJAM_Devtober2021.System.Controllers {
             }
 
             // Hide event
-            GetCurrentScene( ).OnHide( );
+            GetCurrentScene( )?.OnHide( );
 
             // Change current scene
             CurrentScene = type;

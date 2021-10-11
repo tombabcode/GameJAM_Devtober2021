@@ -5,6 +5,7 @@
 		"IsPickable": false,
 		"IsContainer": true,
 		"Categories": ["tool"],
+		"MaxItemsCount": 3,
 		"TextureData": {
 			"Asset": "toolbox",
 			"Type": "static"

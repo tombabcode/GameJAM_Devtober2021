@@ -2,9 +2,9 @@
     public sealed class LevelModel {
         public string LevelID { get; set; }
         public string LevelName { get; set; }
-
         public int LevelSpawnX { get; set; }
         public int LevelSpawnY { get; set; }
+        public int Level { get; set; }
 
         public LevelObjectInstance[] Objects { get; set; }
     }

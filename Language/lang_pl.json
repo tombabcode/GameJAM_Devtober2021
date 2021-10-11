@@ -2,5 +2,13 @@
 	"level_warehouse": "Magazyn",
 	"object_toolbox": "Skrzynka z narzedziami",
 	"item_hammer": "Mlotek",
-	"ui_inventory": "Ekwipunek"
+	"item_screwdriver": "Srubokret",
+	"ui_inventory": "Ekwipunek",
+	"move_swing": "Zamachniecie",
+	"move_prepare": "Przygotowanie",
+	"move_hit": "Uderzenie",
+	"move_stab": "Dzgniecie",
+	"btn_newgame": "Nowa gra",
+	"btn_settings": "Ustawienia",
+	"btn_exit": "Wyjscie"
 }

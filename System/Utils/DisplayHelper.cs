@@ -25,6 +25,23 @@ namespace GameJAM_Devtober2021.System.Utils {
             _canvas.End( );
         }
 
+        public static void DisplayScene(RenderTarget2D scene, ConfigController config) {
+            // Height is smaller than width. Choose height as default value
+            if (config.ViewFactorHeight < config.ViewFactorWidth) {
+                int width = (int)(scene.Width * config.ViewFactorHeight);
+                _canvas.Draw(scene, new Rectangle(config.WindowWidth / 2 - width / 2, 0, width, config.WindowHeight), Color.White);
+
+            // Width is smaller than height. Choose width as default value
+            } else if (config.ViewFactorHeight > config.ViewFactorWidth) {
+                int height = (int)(scene.Height * config.ViewFactorWidth);
+                _canvas.Draw(scene, new Rectangle(0, config.WindowHeight / 2 - height / 2, config.WindowWidth, height), Color.White);
+
+            // View's size and window's size are equal. Do not resize
+            } else {
+                _canvas.Draw(scene, new Rectangle(0, 0, config.WindowWidth, config.WindowHeight), Color.White);
+            }
+        }
+
         // Display raw texture
         public static void Raw(Texture2D texture, float x = 0, float y = 0, float width = -1, float height = -1, float rotation = 0, Vector2? rotOrigin = null, Color? color = null, AlignType align = AlignType.LT) {
             Vector2 size = new Vector2(width <= 0 ? texture.Width : width, height <= 0 ? texture.Height : height);

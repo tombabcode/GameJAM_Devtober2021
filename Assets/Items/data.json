@@ -8,6 +8,66 @@
 		"TextureData": {
 			"Asset": "hammer",
 			"Type": "static"
-		}
+		},
+		"Statistics": {
+			"HPMin": 10,
+			"HPMax": 15,
+			"DamageMin": 1,
+			"DamageMax": 2,
+			"DodgeChanceMin": 0.10,
+			"DodgeChanceMax": 0.20,
+			"CriticalChanceMin": 0.00,
+			"CriticalChanceMax": 0.05
+		},
+		"Moves": [
+			{
+				"ID": "move_swing",
+				"Type": "Attack"
+			},
+			{
+				"ID": "move_prepare",
+				"Type": "Passive",
+				"GainIP": 1
+			},
+			{
+				"ID": "move_hit",
+				"Type": "Attack",
+				"RequiredIP": 2,
+				"GainDamageMin": 2,
+				"GainDamageMax": 3
+			}
+		]
+	},
+	{
+		"ID": "screwdriver",
+		"Name": "item_screwdriver",
+		"Categories": ["tool"],
+		"Level": 1,
+		"Rarity": "Common",
+		"TextureData": {
+			"Asset": "screwdriver",
+			"Type": "static"
+		},
+		"Statistics": {
+			"HPMin": 7,
+			"HPMax": 8,
+			"DamageMin": 1,
+			"DamageMax": 3,
+			"DodgeChanceMin": 0.05,
+			"DodgeChanceMax": 0.10,
+			"CriticalChanceMin": 0.00,
+			"CriticalChanceMax": 0.20
+		},
+		"Moves": [
+			{
+				"ID": "move_stab",
+				"Type": "Attack"
+			},
+			{
+				"ID": "move_prepare",
+				"Type": "Passive",
+				"GainIP": 1
+			}
+		]
 	}
 ]

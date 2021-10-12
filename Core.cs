@@ -36,6 +36,8 @@ namespace GameJAM_Devtober2021 {
         protected override void Initialize( ) {
             base.Initialize( );
 
+            AudioHelper.Config = _config;
+
             IsMouseVisible = true;
             Content.RootDirectory = "Assets";
 
@@ -59,6 +61,7 @@ namespace GameJAM_Devtober2021 {
         protected override void Update(GameTime gameTime) {
             base.Update(gameTime);
             _scene.Update(gameTime);
+            AudioHelper.Update( );
         }
 
         protected override void Draw(GameTime gameTime) {

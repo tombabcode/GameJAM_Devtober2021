@@ -5,6 +5,7 @@ using GameJAM_Devtober2021.System.Textures;
 using GameJAM_Devtober2021.System.Types;
 using GameJAM_Devtober2021.System.Utils;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
@@ -13,6 +14,12 @@ using System.IO;
 
 namespace GameJAM_Devtober2021.System.Controllers {
     public class ContentController {
+
+        // Credits
+        // Music
+        // Music by <a href="/users/vjgalaxy-8110364/?tab=audio&amp;utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=audio&amp;utm_content=3587">vjgalaxy</a> from <a href="https://pixabay.com/music/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=3587">Pixabay</a>
+        // menu - Music by<a href= "/users/timtaj-16489647/?tab=audio&amp;utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=audio&amp;utm_content=9066" > TimTaj </ a > from < a href= "https://pixabay.com/music/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=9066" > Pixabay </ a >
+        // effect click - https://freesound.org/people/GameAudio/sounds/220183/
 
         private ContentManager _content;
 
@@ -25,6 +32,10 @@ namespace GameJAM_Devtober2021.System.Controllers {
 
         public Texture2D TEXPixel { get; private set; }
         public TextureDictionary TEXUI { get; private set; }
+
+        // Audio
+        public SoundEffect MUSICMenu { get; private set; }
+        public SoundEffect SOUNDMouseHover { get; private set; }
 
         // Level
         public LevelModel LevelModel { get; private set; }
@@ -63,6 +74,9 @@ namespace GameJAM_Devtober2021.System.Controllers {
                 { "text_bubble_right", new Rectangle(8, 0, 8, 16) },
                 { "text_bubble_middle", new Rectangle(16, 0, 8, 16) }
             });
+
+            MUSICMenu = _content.Load<SoundEffect>(Path.Combine("Audio", "menu"));
+            SOUNDMouseHover = _content.Load<SoundEffect>(Path.Combine("Audio", "mouse_hover"));
 
             string data;
 

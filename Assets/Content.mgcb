@@ -13,6 +13,18 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Audio/menu.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/menu.ogg
+
+#begin Audio/mouse_hover.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/mouse_hover.ogg
+
 #begin Fonts/Bahiana-License.txt
 /copy:Fonts/Bahiana-License.txt
 

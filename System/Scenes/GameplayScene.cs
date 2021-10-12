@@ -18,6 +18,12 @@ namespace GameJAM_Devtober2021.System.Scenes {
             _scene = scene;
         }
 
+        public override void OnLoad( ) {
+            base.OnLoad( );
+
+            _scene.ChangeScene(Types.SceneType.Search);
+        }
+
         public override void Update(GameTime time) {
             _input.Update( );
         }

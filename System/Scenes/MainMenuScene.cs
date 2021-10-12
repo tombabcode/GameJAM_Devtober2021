@@ -1,10 +1,9 @@
 ﻿using GameJAM_Devtober2021.System.Controllers;
 using GameJAM_Devtober2021.System.Models.UI;
 using GameJAM_Devtober2021.System.Types;
+using GameJAM_Devtober2021.System.Utils;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
 using DH = GameJAM_Devtober2021.System.Utils.DisplayHelper;
 using LANG = GameJAM_Devtober2021.System.Utils.LanguageHelper;
 
@@ -44,7 +43,7 @@ namespace GameJAM_Devtober2021.System.Scenes {
                     Font = FontType.Regular,
                     Text = LANG.Get("btn_newgame"),
                     TextColor = Color.Gray,
-                    OnHover = btn => btn.TextColor = Color.White,
+                    OnHover = btn => OnButtonHover(btn),
                     OnUnhover = btn => btn.TextColor = Color.Gray,
                     OnClick = btn => _scene.ChangeScene(SceneType.Gameplay),
                     PaddingX = 50,
@@ -57,7 +56,7 @@ namespace GameJAM_Devtober2021.System.Scenes {
                     Font = FontType.Regular,
                     Text = LANG.Get("btn_settings"),
                     TextColor = Color.Gray,
-                    OnHover = btn => btn.TextColor = Color.White,
+                    OnHover = btn => OnButtonHover(btn),
                     OnUnhover = btn => btn.TextColor = Color.Gray,
                     PaddingX = 50,
                     PaddingY = 5
@@ -69,7 +68,7 @@ namespace GameJAM_Devtober2021.System.Scenes {
                     Font = FontType.Regular,
                     Text = LANG.Get("btn_exit"),
                     TextColor = Color.Gray,
-                    OnHover = btn => btn.TextColor = Color.White,
+                    OnHover = btn => OnButtonHover(btn),
                     OnUnhover = btn => btn.TextColor = Color.Gray,
                     OnClick = btn => Core.OnExit( ),
                     PaddingX = 50,
@@ -79,6 +78,8 @@ namespace GameJAM_Devtober2021.System.Scenes {
 
             foreach (UIElement ui in _ui)
                 ui.Refresh( );
+
+            AudioHelper.PlayOnce(_content.MUSICMenu, "main_menu_music", true);
         }
 
         public override void Update(GameTime time) {
@@ -98,6 +99,11 @@ namespace GameJAM_Devtober2021.System.Scenes {
             DH.Scene(null, Color.Black, null, ( ) => {
                 DH.DisplayScene(_sceneCore, _config);
             });
+        }
+
+        private void OnButtonHover (Button button) {
+            AudioHelper.PlayMultiple(_content.SOUNDMouseHover, "mouse_hover_effect");
+            button.TextColor = Color.White;
         }
 
     }

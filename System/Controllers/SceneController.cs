@@ -13,7 +13,7 @@ namespace GameJAM_Devtober2021.System.Controllers {
         public void Initialize(ConfigController config, ContentController content, InputController input) {
             _scenes = new Dictionary<SceneType, SceneBase>( ) {
                 { SceneType.MainMenu, new MainMenuScene(config, content, input, this) },
-                { SceneType.Gameplay, new GameplayScene(config, content, input, this) },
+                { SceneType.GameIntro, new GameIntro(config, content, input, this) },
                 { SceneType.Combat, new CombatScene(config, content, input, this) },
                 { SceneType.Search, new SearchScene(config, content, input, this) }
             };

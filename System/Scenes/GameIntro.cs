@@ -4,14 +4,14 @@ using Microsoft.Xna.Framework;
 using DH = GameJAM_Devtober2021.System.Utils.DisplayHelper;
 
 namespace GameJAM_Devtober2021.System.Scenes {
-    public class GameplayScene : SceneBase {
+    public class GameIntro : SceneBase {
 
         private ConfigController _config;
         private ContentController _content;
         private InputController _input;
         private SceneController _scene;
 
-        public GameplayScene(ConfigController config, ContentController content, InputController input, SceneController scene) : base("Gameplay") {
+        public GameIntro(ConfigController config, ContentController content, InputController input, SceneController scene) : base("GameIntro") {
             _config = config;
             _content = content;
             _input = input;
@@ -29,7 +29,7 @@ namespace GameJAM_Devtober2021.System.Scenes {
         }
 
         public override void Display(GameTime time) {
-            DH.Scene(null, Color.Red, null, ( ) => {
+            DH.Scene(null, Color.Black, null, ( ) => {
                     
             });
         }

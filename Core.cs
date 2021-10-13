@@ -62,6 +62,7 @@ namespace GameJAM_Devtober2021 {
             base.Update(gameTime);
             _scene.Update(gameTime);
             AudioHelper.Update( );
+            AnimationHelper.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime) {

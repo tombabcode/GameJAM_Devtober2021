@@ -4,6 +4,7 @@ using GameJAM_Devtober2021.System.Types;
 using GameJAM_Devtober2021.System.Utils;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using DH = GameJAM_Devtober2021.System.Utils.DisplayHelper;
 using LANG = GameJAM_Devtober2021.System.Utils.LanguageHelper;
 
@@ -18,6 +19,8 @@ namespace GameJAM_Devtober2021.System.Scenes {
         private RenderTarget2D _sceneCore;
 
         private UIElement[] _ui = new UIElement[0];
+
+        private bool _isAnimating;
 
         public MainMenuScene(ConfigController config, ContentController content, InputController input, SceneController scene) : base("MainMenu") {
             _config = config;
@@ -42,10 +45,10 @@ namespace GameJAM_Devtober2021.System.Scenes {
                     Align = AlignType.CM,
                     Font = FontType.Regular,
                     Text = LANG.Get("btn_newgame"),
-                    TextColor = Color.Gray,
+                    TextColor = new Color(Color.Gray, 0),
                     OnHover = btn => OnButtonHover(btn),
-                    OnUnhover = btn => btn.TextColor = Color.Gray,
-                    OnClick = btn => _scene.ChangeScene(SceneType.Gameplay),
+                    OnUnhover = btn => OnButtonUnhover(btn),
+                    OnClick = btn => OnButtonAction(btn, "newgame"),
                     PaddingX = 50,
                     PaddingY = 5
                 },
@@ -55,9 +58,9 @@ namespace GameJAM_Devtober2021.System.Scenes {
                     Align = AlignType.CM,
                     Font = FontType.Regular,
                     Text = LANG.Get("btn_settings"),
-                    TextColor = Color.Gray,
+                    TextColor = new Color(Color.Gray, 0),
                     OnHover = btn => OnButtonHover(btn),
-                    OnUnhover = btn => btn.TextColor = Color.Gray,
+                    OnUnhover = btn => OnButtonUnhover(btn),
                     PaddingX = 50,
                     PaddingY = 5
                 },
@@ -67,9 +70,9 @@ namespace GameJAM_Devtober2021.System.Scenes {
                     Align = AlignType.CM,
                     Font = FontType.Regular,
                     Text = LANG.Get("btn_exit"),
-                    TextColor = Color.Gray,
+                    TextColor = new Color(Color.Gray, 0),
                     OnHover = btn => OnButtonHover(btn),
-                    OnUnhover = btn => btn.TextColor = Color.Gray,
+                    OnUnhover = btn => OnButtonUnhover(btn),
                     OnClick = btn => Core.OnExit( ),
                     PaddingX = 50,
                     PaddingY = 5
@@ -80,6 +83,20 @@ namespace GameJAM_Devtober2021.System.Scenes {
                 ui.Refresh( );
 
             AudioHelper.PlayOnce(_content.MUSICMenu, "main_menu_music", true);
+        }
+
+        public override void OnShow( ) {
+            base.OnShow( );
+
+            _isAnimating = true;
+
+            _ = AnimationHelper.Add(0, 1, 600,
+                onUpdate: model => {
+                    foreach (Button btn in _ui)
+                        btn.TextColor = Color.Gray * (float)model.Current;
+                },
+                onComplete: _ => _isAnimating = false
+            );
         }
 
         public override void Update(GameTime time) {
@@ -101,9 +118,36 @@ namespace GameJAM_Devtober2021.System.Scenes {
             });
         }
 
+        private void OnButtonUnhover(Button button) {
+            if (_isAnimating) {
+                return;
+            }
+
+            button.TextColor = Color.Gray;
+        }
+
         private void OnButtonHover (Button button) {
+            if (_isAnimating) {
+                return;
+            }
+
             AudioHelper.PlayMultiple(_content.SOUNDMouseHover, "mouse_hover_effect");
             button.TextColor = Color.White;
+        }
+
+        private void OnButtonAction(Button button, string id) {
+            if (_isAnimating) {
+                return;
+            }
+
+            _isAnimating = true;
+            _ = AnimationHelper.Add(1, 0, 600,
+                onUpdate: model => {
+                    foreach (Button btn in _ui)
+                        btn.TextColor = Color.Gray * (float)model.Current;
+                },
+                onComplete: model => _scene.ChangeScene(SceneType.GameIntro)
+            );
         }
 
     }

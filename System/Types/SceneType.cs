@@ -4,7 +4,7 @@
         Default,
 
         MainMenu,
-        Gameplay,
+        GameIntro,
         Combat,
         Search
 

@@ -17,11 +17,11 @@ namespace GameJAM_Devtober2021.System.Utils {
                 AnimationModel model = Animations[i];
 
                 // Animation is paused
-                if (model.State == AnimationState.Paused)
+                if (model.State == STATE.Paused)
                     continue;
 
                 // Animation is stopped (remove)
-                if (model.State == AnimationState.Stopped) {
+                if (model.State == STATE.Stopped) {
                     model.OnComplete(model);
                     Animations.RemoveAt(i);
                     i++;
@@ -32,7 +32,7 @@ namespace GameJAM_Devtober2021.System.Utils {
                 double elapsed = time.ElapsedGameTime.TotalMilliseconds;
 
                 // If animation is not started
-                if (model.State == AnimationState.NotStarted) {
+                if (model.State == STATE.NotStarted) {
                     double delay = model.Delay - elapsed;
 
                     // Delay not matched
@@ -43,7 +43,7 @@ namespace GameJAM_Devtober2021.System.Utils {
 
                     // Update elapsed and start animation
                     elapsed = delay == 0 ? 0 : Math.Abs(delay);
-                    model.State = AnimationState.PlayingForward;
+                    model.State = STATE.PlayingForward;
                     model.OnStart?.Invoke(model);
                 }
 

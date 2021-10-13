@@ -30,7 +30,7 @@ namespace GameJAM_Devtober2021.System.Scenes {
 
         public override void Display(GameTime time) {
             DH.Scene(null, Color.Black, null, ( ) => {
-                    
+                
             });
         }
 

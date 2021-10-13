@@ -3,7 +3,7 @@
 
 /outputDir:../bin/Assets
 /intermediateDir:../obj/Assets
-/platform:Windows
+/platform:DesktopGL
 /config:
 /profile:Reach
 /compress:False
@@ -24,6 +24,12 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Audio/mouse_hover.ogg
+
+#begin Effects/film_grain.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Effects/film_grain.fx
 
 #begin Fonts/Bahiana-License.txt
 /copy:Fonts/Bahiana-License.txt

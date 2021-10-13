@@ -49,11 +49,19 @@ namespace GameJAM_Devtober2021.System.Scenes {
         // Main item that will fight
         private ItemInstance _primaryItem;
 
+        // Animations
+        private bool _isAnimating = true;
+        private float _sceneAlpha = 0;
+
+        private Random _rand;
+
         public SearchScene(ConfigController config, ContentController content, InputController input, SceneController scene) : base("Search") {
             _config = config;
             _content = content;
             _input = input;
             _scene = scene;
+
+            _rand = new Random( );
         }
 
         public override void OnLoad( ) {
@@ -73,8 +81,10 @@ namespace GameJAM_Devtober2021.System.Scenes {
         public override void OnShow( ) {
             base.OnShow( );
 
+            _isAnimating = true;
+
             // Start the timer
-            _timeLeft = 5;
+            _timeLeft = 180;
             _timeLeftMinutes = (int)Math.Floor(_timeLeft / 60f);
             _timeLeftSeconds = _timeLeft % 60;
             _timer = new Timer((object state) => {
@@ -87,7 +97,10 @@ namespace GameJAM_Devtober2021.System.Scenes {
                 _timeLeftMinutes = (int)Math.Floor(_timeLeft / 60f);
                 _timeLeftSeconds = _timeLeft % 60;
             }, null, Timeout.Infinite, 1000);
-            // _timer.Change(0, 1000);
+            _timer.Change(0, 1000);
+
+            // Animate fade-in
+            AnimationHelper.Add(0, 1, 600, onUpdate: v => _sceneAlpha = (float)v.Current, onComplete: _ => _isAnimating = false);
         }
 
         private void OnTimerFinish( ) {
@@ -190,11 +203,11 @@ namespace GameJAM_Devtober2021.System.Scenes {
         }
 
         public override void Display(GameTime time) {
-            DH.Scene(_sceneCore, Color.Transparent, _camera.Matrix, ( ) => RenderCoreScene(time));
+            DH.Scene(_sceneCore, Color.Transparent, _camera.Matrix, ( ) => RenderCoreScene(time), _content.FXFilmGrain);
             DH.Scene(_sceneUI, Color.Transparent, null, ( ) => RenderUIScene(time));
             DH.Scene(null, Color.Black, null, ( ) => {
-                DH.Raw(_sceneCore);
-                DH.Raw(_sceneUI);
+                DH.Raw(_sceneCore, color: Color.White * _sceneAlpha);
+                DH.Raw(_sceneUI, color: Color.White * _sceneAlpha);
             });
         }
 

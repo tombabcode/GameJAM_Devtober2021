@@ -21,6 +21,7 @@ namespace GameJAM_Devtober2021.System.Scenes {
         private UIElement[] _ui = new UIElement[0];
 
         private bool _isAnimating;
+        private float _sceneAlpha = 0;
 
         public MainMenuScene(ConfigController config, ContentController content, InputController input, SceneController scene) : base("MainMenu") {
             _config = config;
@@ -91,10 +92,7 @@ namespace GameJAM_Devtober2021.System.Scenes {
             _isAnimating = true;
 
             _ = AnimationHelper.Add(0, 1, 600,
-                onUpdate: model => {
-                    foreach (Button btn in _ui)
-                        btn.TextColor = Color.Gray * (float)model.Current;
-                },
+                onUpdate: v => _sceneAlpha = (float)v.Current,
                 onComplete: _ => _isAnimating = false
             );
         }
@@ -114,24 +112,17 @@ namespace GameJAM_Devtober2021.System.Scenes {
         public override void Display(GameTime time) {
             DH.Scene(_sceneCore, Color.Transparent, null, ( ) => RenderCoreScene(time));
             DH.Scene(null, Color.Black, null, ( ) => {
-                DH.DisplayScene(_sceneCore, _config);
+                DH.DisplayScene(_sceneCore, _config, color: Color.White * _sceneAlpha);
             });
         }
 
         private void OnButtonUnhover(Button button) {
-            if (_isAnimating) {
-                return;
-            }
-
             button.TextColor = Color.Gray;
         }
 
         private void OnButtonHover (Button button) {
-            if (_isAnimating) {
-                return;
-            }
-
-            AudioHelper.PlayMultiple(_content.SOUNDMouseHover, "mouse_hover_effect");
+            if (!_isAnimating)
+                AudioHelper.PlayMultiple(_content.SOUNDMouseHover, "mouse_hover_effect");
             button.TextColor = Color.White;
         }
 
@@ -142,11 +133,8 @@ namespace GameJAM_Devtober2021.System.Scenes {
 
             _isAnimating = true;
             _ = AnimationHelper.Add(1, 0, 600,
-                onUpdate: model => {
-                    foreach (Button btn in _ui)
-                        btn.TextColor = Color.Gray * (float)model.Current;
-                },
-                onComplete: model => _scene.ChangeScene(SceneType.GameIntro)
+                onUpdate: v => _sceneAlpha = (float)v.Current,
+                onComplete: model => _scene.ChangeScene(SceneType.Search)
             );
         }
 

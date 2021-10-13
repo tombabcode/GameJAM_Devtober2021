@@ -3,6 +3,7 @@ using GameJAM_Devtober2021.System.Utils;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Timers;
 
 namespace GameJAM_Devtober2021 {
     public sealed class Core : Game {
@@ -56,6 +57,12 @@ namespace GameJAM_Devtober2021 {
             _scene.Initialize(_config, _content, _input);
 
             DisplayHelper.Content = _content;
+
+            Random rand = new Random( );
+            Timer timer = new Timer( );
+            timer.Elapsed += new ElapsedEventHandler((_, e) => _content.FXFilmGrain.Parameters["InputRandomValue"].SetValue((float)rand.NextDouble( ) * 125f + 43758.5453123f));
+            timer.Interval = 50;
+            timer.Enabled = true;
         }
 
         protected override void Update(GameTime gameTime) {

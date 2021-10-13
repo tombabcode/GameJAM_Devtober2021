@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -44,6 +45,8 @@ namespace GameJAM_Devtober2021.System.Controllers {
         public ItemData[] ItemsData { get; private set; }
         public ObjectData[] ObjectsData { get; private set; }
 
+        public Effect FXFilmGrain { get; private set; }
+
         public void Initialize(ContentManager content, SpriteBatch canvas, GraphicsDevice device) {
             _content = content;
             Canvas = canvas;
@@ -77,6 +80,7 @@ namespace GameJAM_Devtober2021.System.Controllers {
 
             MUSICMenu = _content.Load<SoundEffect>(Path.Combine("Audio", "menu"));
             SOUNDMouseHover = _content.Load<SoundEffect>(Path.Combine("Audio", "mouse_hover"));
+            FXFilmGrain = _content.Load<Effect>(Path.Combine("Effects", "film_grain"));
 
             string data;
 

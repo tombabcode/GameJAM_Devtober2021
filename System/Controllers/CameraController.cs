@@ -7,13 +7,13 @@ namespace GameJAM_Devtober2021.System.Controllers {
         public Vector2 Target { get; private set; }
         public Vector2 Offset { get; private set; }
         public float Scale { get; private set; }
-        public float ScaleMin { get; set; } = 1.00f;
+        public float ScaleMin { get; set; } = 2.00f;
         public float ScaleMax { get; set; } = 4.00f;
 
         public CameraController( ) {
             Target = Vector2.Zero;
             Offset = Vector2.Zero;
-            Scale = 1.0f;
+            Scale = 2.0f;
         }
 
         public void SetOffset(float x, float y) {

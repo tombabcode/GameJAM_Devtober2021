@@ -3,7 +3,15 @@
 
         Console,
         Regular,
-        RegularS
+        RegularS,
+
+        TextRegularS,
+        TextRegularM,
+        TextRegularB,
+
+        TextBoldS,
+        TextBoldM,
+        TextBoldB
 
     }
 }

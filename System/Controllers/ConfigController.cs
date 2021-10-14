@@ -16,12 +16,6 @@ namespace GameJAM_Devtober2021.System.Controllers {
 
         public float Volume { get; private set; } = DEF_Volume;
 
-        public int ViewWidth { get; private set; } = 400;
-        public int ViewHeight { get; private set; } = 400;
-
-        public float ViewFactorWidth => 1f * WindowWidth / ViewWidth;
-        public float ViewFactorHeight => 1f * WindowHeight / ViewHeight;
-
         public bool IsDebugMode { get; private set; }
 
         public void LoadConfig( ) {
@@ -32,7 +26,6 @@ namespace GameJAM_Devtober2021.System.Controllers {
             IsDebugMode = DEF_DebugMode;
 
             Logger.Info("Config loaded");
-            Logger.Info($"View factor (X: {ViewFactorWidth:0.000}, Y: {ViewFactorHeight:0.000}");
         }
 
     }

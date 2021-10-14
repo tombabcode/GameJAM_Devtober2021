@@ -30,6 +30,12 @@ namespace GameJAM_Devtober2021.System.Controllers {
         private SpriteFont _fontConsole;
         private SpriteFont _fontRegular;
         private SpriteFont _fontRegularSmall;
+        private SpriteFont _fontTextRegularS;
+        private SpriteFont _fontTextRegularM;
+        private SpriteFont _fontTextRegularB;
+        private SpriteFont _fontTextBoldS;
+        private SpriteFont _fontTextBoldM;
+        private SpriteFont _fontTextBoldB;
 
         public Texture2D TEXPixel { get; private set; }
         public TextureDictionary TEXUI { get; private set; }
@@ -47,6 +53,8 @@ namespace GameJAM_Devtober2021.System.Controllers {
 
         public Effect FXFilmGrain { get; private set; }
 
+        public Dictionary<string, Texture2D> TEXMoves { get; private set; }
+
         public void Initialize(ContentManager content, SpriteBatch canvas, GraphicsDevice device) {
             _content = content;
             Canvas = canvas;
@@ -60,6 +68,12 @@ namespace GameJAM_Devtober2021.System.Controllers {
                 FontType.Regular => _fontRegular,
                 FontType.RegularS => _fontRegularSmall,
                 FontType.Console => _fontConsole,
+                FontType.TextRegularS => _fontTextRegularS,
+                FontType.TextRegularM => _fontTextRegularM,
+                FontType.TextRegularB => _fontTextRegularB,
+                FontType.TextBoldS => _fontTextBoldS,
+                FontType.TextBoldM => _fontTextBoldM,
+                FontType.TextBoldB => _fontTextBoldB,
                 _ => _fontRegular,
             };
         }
@@ -69,6 +83,13 @@ namespace GameJAM_Devtober2021.System.Controllers {
             _fontRegularSmall = _content.Load<SpriteFont>(Path.Combine("Fonts", "default.small"));
             _fontConsole = _content.Load<SpriteFont>(Path.Combine("Fonts", "console"));
 
+            _fontTextRegularS = _content.Load<SpriteFont>(Path.Combine("Fonts", "TextRegularS"));
+            _fontTextRegularM = _content.Load<SpriteFont>(Path.Combine("Fonts", "TextRegularM"));
+            _fontTextRegularB = _content.Load<SpriteFont>(Path.Combine("Fonts", "TextRegularB"));
+            _fontTextBoldS = _content.Load<SpriteFont>(Path.Combine("Fonts", "TextBoldS"));
+            _fontTextBoldM = _content.Load<SpriteFont>(Path.Combine("Fonts", "TextBoldM"));
+            _fontTextBoldB = _content.Load<SpriteFont>(Path.Combine("Fonts", "TextBoldB"));
+
             TEXPixel = new Texture2D(Device, 1, 1);
             TEXPixel.SetData(new Color[] { Color.White });
 
@@ -77,6 +98,13 @@ namespace GameJAM_Devtober2021.System.Controllers {
                 { "text_bubble_right", new Rectangle(8, 0, 8, 16) },
                 { "text_bubble_middle", new Rectangle(16, 0, 8, 16) }
             });
+
+            TEXMoves = new Dictionary<string, Texture2D>( ) {
+                { "move_hit", _content.Load<Texture2D>(Path.Combine("Moves", "move_hit")) },
+                { "move_prepare", _content.Load<Texture2D>(Path.Combine("Moves", "move_prepare")) },
+                { "move_stab", _content.Load<Texture2D>(Path.Combine("Moves", "move_stab")) },
+                { "move_swing", _content.Load<Texture2D>(Path.Combine("Moves", "move_swing")) }
+            };
 
             MUSICMenu = _content.Load<SoundEffect>(Path.Combine("Audio", "menu"));
             SOUNDMouseHover = _content.Load<SoundEffect>(Path.Combine("Audio", "mouse_hover"));

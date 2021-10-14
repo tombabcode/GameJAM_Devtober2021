@@ -52,13 +52,10 @@ namespace GameJAM_Devtober2021.System.Models.UI {
         }
 
         public override void Update(GameTime time) {
-            int mx = (int)(_input.MouseX / _config.ViewFactorWidth);
-            int my = (int)(_input.MouseY / _config.ViewFactorHeight);
-
             // Hover
             if (CheckHoverCondition == null || CheckHoverCondition.Invoke( )) {
-                if (mx >= _position.X && mx <= _position.X + _size.X &&
-                    my >= _position.Y && my <= _position.Y + _size.Y
+                if (_input.MouseX >= _position.X && _input.MouseX <= _position.X + _size.X &&
+                    _input.MouseY >= _position.Y && _input.MouseY <= _position.Y + _size.Y
                 ) {
                     if (!_isHovered) {
                         OnHover(this);

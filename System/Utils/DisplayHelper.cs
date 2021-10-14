@@ -25,21 +25,8 @@ namespace GameJAM_Devtober2021.System.Utils {
             _canvas.End( );
         }
 
-        public static void DisplayScene(RenderTarget2D scene, ConfigController config, Color? color = null) {
-            // Height is smaller than width. Choose height as default value
-            if (config.ViewFactorHeight < config.ViewFactorWidth) {
-                int width = (int)(scene.Width * config.ViewFactorHeight);
-                _canvas.Draw(scene, new Rectangle(config.WindowWidth / 2 - width / 2, 0, width, config.WindowHeight), color ?? Color.White);
-
-            // Width is smaller than height. Choose width as default value
-            } else if (config.ViewFactorHeight > config.ViewFactorWidth) {
-                int height = (int)(scene.Height * config.ViewFactorWidth);
-                _canvas.Draw(scene, new Rectangle(0, config.WindowHeight / 2 - height / 2, config.WindowWidth, height), color ?? Color.White);
-
-            // View's size and window's size are equal. Do not resize
-            } else {
-                _canvas.Draw(scene, new Rectangle(0, 0, config.WindowWidth, config.WindowHeight), color ?? Color.White);
-            }
+        public static void DisplayScene(RenderTarget2D scene, Color? color = null) {
+            _canvas.Draw(scene, new Rectangle(0, 0, scene.Width, scene.Height), color ?? Color.White);
         }
 
         // Display raw texture

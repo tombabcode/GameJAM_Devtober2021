@@ -33,8 +33,7 @@
 				"ID": "move_hit",
 				"Type": "Attack",
 				"RequiredIP": 2,
-				"GainDamageMin": 2,
-				"GainDamageMax": 3
+				"GainDamage": 2
 			}
 		]
 	},

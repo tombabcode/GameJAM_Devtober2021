@@ -35,13 +35,9 @@ namespace GameJAM_Devtober2021.System.Logic.Items {
         public int RequiredIP { get; set; } = 0;
 
         public int GainIP { get; set; } = 0;
-        public int GainHPMin { get; set; } = 0;
-        public int GainHPMax { get; set; } = 0;
-        public int GainDamageMin { get; set; } = 0;
-        public int GainDamageMax { get; set; } = 0;
-        public float GainDodgeChanceMin { get; set; } = 0;
-        public float GainDodgeChanceMax { get; set; } = 0;
-        public float GainCriticalChanceMin { get; set; } = 0;
-        public float GainCriticalChanceMax { get; set; } = 0;
+        public int GainHP { get; set; } = 0;
+        public int GainDamage { get; set; } = 0;
+        public float GainDodgeChance { get; set; } = 0;
+        public float GainCriticalChance { get; set; } = 0;
     }
 }

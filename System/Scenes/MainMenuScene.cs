@@ -33,7 +33,7 @@ namespace GameJAM_Devtober2021.System.Scenes {
         public override void OnLoad( ) {
             base.OnLoad( );
 
-            _sceneCore = new RenderTarget2D(_content.Device, _config.ViewWidth, _config.ViewHeight);
+            _sceneCore = new RenderTarget2D(_content.Device, _config.WindowWidth, _config.WindowHeight);
 
             // TODO
             // - Maybe ID or something to easy select objects, instead of e.g. _ui[29]
@@ -41,8 +41,8 @@ namespace GameJAM_Devtober2021.System.Scenes {
             // - Add possibility to set buttons' width and height
             _ui = new UIElement[] {
                 new Button(_config, _input, _content) {
-                    X = _config.ViewWidth / 2,
-                    Y = _config.ViewHeight / 2,
+                    X = _config.WindowWidth / 2,
+                    Y = _config.WindowHeight / 2,
                     Align = AlignType.CM,
                     Font = FontType.Regular,
                     Text = LANG.Get("btn_newgame"),
@@ -54,8 +54,8 @@ namespace GameJAM_Devtober2021.System.Scenes {
                     PaddingY = 5
                 },
                 new Button(_config, _input, _content) {
-                    X = _config.ViewWidth / 2,
-                    Y = _config.ViewHeight / 2 + 45f,
+                    X = _config.WindowWidth / 2,
+                    Y = _config.WindowHeight / 2 + 45f,
                     Align = AlignType.CM,
                     Font = FontType.Regular,
                     Text = LANG.Get("btn_settings"),
@@ -66,8 +66,8 @@ namespace GameJAM_Devtober2021.System.Scenes {
                     PaddingY = 5
                 },
                 new Button(_config, _input, _content) {
-                    X = _config.ViewWidth / 2,
-                    Y = _config.ViewHeight / 2 + 90,
+                    X = _config.WindowWidth / 2,
+                    Y = _config.WindowHeight / 2 + 90,
                     Align = AlignType.CM,
                     Font = FontType.Regular,
                     Text = LANG.Get("btn_exit"),
@@ -112,7 +112,7 @@ namespace GameJAM_Devtober2021.System.Scenes {
         public override void Display(GameTime time) {
             DH.Scene(_sceneCore, Color.Transparent, null, ( ) => RenderCoreScene(time));
             DH.Scene(null, Color.Black, null, ( ) => {
-                DH.DisplayScene(_sceneCore, _config, color: Color.White * _sceneAlpha);
+                DH.DisplayScene(_sceneCore, Color.White * _sceneAlpha);
             });
         }
 

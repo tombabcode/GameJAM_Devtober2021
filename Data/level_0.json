@@ -4,11 +4,5 @@
 	"LevelSpawnX": 113,
 	"LevelSpawnY": 20,
 	"Level": 1,
-	"Objects": [
-		{
-			"ID": "toolbox",
-			"X": 97,
-			"Y": 34
-		}
-	]
+	"Objects": []
 }

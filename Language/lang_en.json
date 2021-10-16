@@ -1,6 +1,9 @@
 ﻿{
 	"level_warehouse": "Warehouse",
+	"level_garage": "Garage",
 	"object_toolbox": "Toolbox",
+	"object_shovel": "Shovel",
+	"object_box": "Box",
 	"item_hammer": "Hammer",
 	"item_screwdriver": "Screwdriver",
 	"ui_inventory": "Inventory",
@@ -13,7 +16,16 @@
 	"move_prepare": "Prepare",
 	"move_hit": "Hit",
 	"move_stab": "Stab",
-	"btn_newgame": "New game",
+	"btn_play": "Play",
 	"btn_settings": "Settings",
-	"btn_exit": "Exit"
+	"btn_exit": "Exit",
+	"intro_continue": "(Press [SPACEBAR] to continue)",
+	"intro_1": "Welcome in our game!",
+	"intro_2": "Rules are simple",
+	"intro_3": "You can choose only one item that will fight for you in the arena",
+	"intro_4": "Let's search this abandoned warehouse...",
+	"intro_5": "Use [RMB] Right Mouse Button to look around",
+	"intro_6": "Oh, look! A toolbox! It's too heavy, so you cannot take that one...",
+	"intro_7": "...But it might have some cool stuff inside!",
+	"intro_8": "Select that container with your [LMB] Left Mouse Button"
 }

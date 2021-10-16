@@ -16,7 +16,7 @@ namespace GameJAM_Devtober2021.System.Logic {
 
         public bool IsLoaded { get; private set; }
         public LevelModel LevelModel { get; private set; }
-        public ObjectInstance[] Objects { get; private set; }
+        public List<ObjectInstance> Objects { get; private set; }
 
         public LevelController(ContentController content) {
             _content = content;
@@ -58,7 +58,7 @@ namespace GameJAM_Devtober2021.System.Logic {
                     result.Add(instance);
                 }
 
-                Objects = result.ToArray( );
+                Objects = result;
             } catch(Exception e) {
                 Logger.Error("Failed level loading on objects loading", e);
                 return;

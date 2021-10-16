@@ -16,6 +16,9 @@ namespace GameJAM_Devtober2021.System.Models {
         public double Delay { get; set; }
         public double Progress => TimePassed / Duration;
 
+        // Easing
+        public EaseType Ease { get; set; } = EaseType.Linear;
+
         // States
         public bool IsLooped { get; set; } = false;
         public bool IsYoyo { get; set; } = false;

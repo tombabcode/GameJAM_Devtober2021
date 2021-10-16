@@ -2,7 +2,8 @@
     public enum ItemCategory {
 
         Common,
-        Tool
+        Tool,
+        Trinket
 
     }
 }

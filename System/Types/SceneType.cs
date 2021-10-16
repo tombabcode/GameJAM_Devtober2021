@@ -5,6 +5,7 @@
 
         MainMenu,
         GameIntro,
+        Settings,
         Combat,
         Search
 

@@ -10,5 +10,27 @@
 			"Asset": "toolbox",
 			"Type": "static"
 		}
+	},
+	{
+		"ID": "shovel",
+		"Name": "object_shovel",
+		"IsPickable": true,
+		"IsContainer": false,
+		"Categories":  ["tool"],
+		"TextureData": {
+			"Asset": "shovel",
+			"Type": "static"
+		}
+	},
+	{
+		"ID": "box",
+		"Name": "object_box",
+		"IsPickable": false,
+		"IsContainer": true,
+		"Categories": ["trinket"],
+		"TextureData": {
+			"Asset": "box",
+			"Type": "static"
+		}
 	}
 ]

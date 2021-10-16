@@ -21,6 +21,7 @@ namespace GameJAM_Devtober2021.System.Controllers {
         // Music by <a href="/users/vjgalaxy-8110364/?tab=audio&amp;utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=audio&amp;utm_content=3587">vjgalaxy</a> from <a href="https://pixabay.com/music/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=3587">Pixabay</a>
         // menu - Music by<a href= "/users/timtaj-16489647/?tab=audio&amp;utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=audio&amp;utm_content=9066" > TimTaj </ a > from < a href= "https://pixabay.com/music/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=9066" > Pixabay </ a >
         // effect click - https://freesound.org/people/GameAudio/sounds/220183/
+        // game intro music - Music by <a href="/users/zen_man-4257870/?tab=audio&amp;utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=audio&amp;utm_content=2691">Zen_Man</a> from <a href="https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=2691">Pixabay</a>
 
         private ContentManager _content;
 
@@ -42,6 +43,7 @@ namespace GameJAM_Devtober2021.System.Controllers {
 
         // Audio
         public SoundEffect MUSICMenu { get; private set; }
+        public SoundEffect MUSICIntro { get; private set; }
         public SoundEffect SOUNDMouseHover { get; private set; }
 
         // Level
@@ -96,7 +98,8 @@ namespace GameJAM_Devtober2021.System.Controllers {
             TEXUI = new TextureDictionary(_content.Load<Texture2D>("ui"), new Dictionary<string, Rectangle>( ) {
                 { "text_bubble_left", new Rectangle(0, 0, 8, 16) },
                 { "text_bubble_right", new Rectangle(8, 0, 8, 16) },
-                { "text_bubble_middle", new Rectangle(16, 0, 8, 16) }
+                { "text_bubble_middle", new Rectangle(16, 0, 8, 16) },
+                { "selection_star", new Rectangle(0, 16, 128, 128) }
             });
 
             TEXMoves = new Dictionary<string, Texture2D>( ) {
@@ -107,6 +110,7 @@ namespace GameJAM_Devtober2021.System.Controllers {
             };
 
             MUSICMenu = _content.Load<SoundEffect>(Path.Combine("Audio", "menu"));
+            MUSICIntro = _content.Load<SoundEffect>(Path.Combine("Audio", "intro"));
             SOUNDMouseHover = _content.Load<SoundEffect>(Path.Combine("Audio", "mouse_hover"));
             FXFilmGrain = _content.Load<Effect>(Path.Combine("Effects", "film_grain"));
 

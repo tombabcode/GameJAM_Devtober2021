@@ -8,17 +8,19 @@ namespace GameJAM_Devtober2021.System.Utils {
         public static ConfigController Config { private get; set; }
         public static Dictionary<string, SoundEffectInstance> Instances { get; private set; } = new Dictionary<string, SoundEffectInstance>( );
 
-        public static void PlayOnce(SoundEffect audio, string id, bool loop = false) {
+        public static void PlayOnce(SoundEffect audio, string id, bool loop = false, float? volume = null) {
             SoundEffectInstance instance = audio.CreateInstance( );
-            instance.Volume = Config.Volume;
+            instance.Volume = volume ?? Config.Volume;
+            instance.IsLooped = loop;
             instance.Play( );
 
             Instances.Add(id, instance);
         }
 
-        public static void PlayMultiple(SoundEffect audio, string id, bool loop = false) {
+        public static void PlayMultiple(SoundEffect audio, string id, bool loop = false, float? volume = null) {
             SoundEffectInstance instance = audio.CreateInstance( );
-            instance.Volume = Config.Volume;
+            instance.Volume = volume ?? Config.Volume;
+            instance.IsLooped = loop;
             instance.Play( );
 
             int i = 0;
@@ -64,6 +66,14 @@ namespace GameJAM_Devtober2021.System.Utils {
 
             foreach (string key in toRemove) {
                 Instances.Remove(key);
+            }
+        }
+
+        public static void SetVolume(float value) {
+            foreach (KeyValuePair<string, SoundEffectInstance> kv in Instances) {
+                SoundEffectInstance instance = kv.Value;
+                if (instance != null)
+                    instance.Volume = value;
             }
         }
 

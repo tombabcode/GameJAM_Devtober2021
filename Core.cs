@@ -8,6 +8,9 @@ using System.Timers;
 namespace GameJAM_Devtober2021 {
     public sealed class Core : Game {
 
+        public const string GAME_TITLE = "A lot of things!";
+        public const string GAME_VERSION = "1.0";
+
         private GraphicsDeviceManager _deviceMNG;
         private SpriteBatch _canvas;
 

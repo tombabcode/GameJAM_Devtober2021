@@ -22,7 +22,7 @@ namespace GameJAM_Devtober2021.System.Utils {
 
                 // Animation is stopped (remove)
                 if (model.State == STATE.Stopped) {
-                    model.OnComplete(model);
+                    model.OnComplete?.Invoke(model);
                     Animations.RemoveAt(i);
                     i++;
                     continue;
@@ -59,6 +59,9 @@ namespace GameJAM_Devtober2021.System.Utils {
                     if (!model.IsLooped) {
                         model.OnComplete?.Invoke(model);
                         model.State = STATE.Stopped;
+                        Animations.RemoveAt(i);
+                        i++;
+                        continue;
                     }
 
                     // On loop
@@ -74,21 +77,18 @@ namespace GameJAM_Devtober2021.System.Utils {
                 }
 
                 // Update position
-                if (model.State == STATE.PlayingForward) 
-                    model.Current = model.Progress * (model.Target - model.Source) + model.Source;
-                else
-                    model.Current = (1 - model.Progress) * (model.Target - model.Source) + model.Source;
+                model.Current = Ease(model.Ease, model.Source, model.Target, model.State == STATE.PlayingForward ? model.Progress : 1 - model.Progress);
+                // model.Current = model.Progress * (model.Target - model.Source) + model.Source;
+                // model.Current = (1 - model.Progress) * (model.Target - model.Source) + model.Source;
 
                 // On update
                 model.OnUpdate?.Invoke(model);
             }
         }
 
-        public static string Add(double source, double target, double duration, double delay = 0, bool loop = false, bool yoyo = false, Action<AnimationModel> onUpdate = null, Action<AnimationModel> onStart = null, Action<AnimationModel> onComplete = null, Action<AnimationModel> onLoop = null) {
-            string id = Guid.NewGuid( ).ToString( );
-
-            Animations.Add(new AnimationModel( ) {
-                ID = id,
+        public static AnimationModel Add(double source, double target, double duration, double delay = 0, bool loop = false, bool yoyo = false, EaseType ease = EaseType.Linear, Action<AnimationModel> onUpdate = null, Action<AnimationModel> onStart = null, Action<AnimationModel> onComplete = null, Action<AnimationModel> onLoop = null) {
+            AnimationModel model = new AnimationModel( ) {
+                ID = Guid.NewGuid( ).ToString( ),
                 Source = source,
                 Target = target,
                 Current = source,
@@ -96,13 +96,16 @@ namespace GameJAM_Devtober2021.System.Utils {
                 Delay = delay,
                 IsLooped = loop,
                 IsYoyo = yoyo,
+                Ease = ease,
                 OnUpdate = onUpdate,
                 OnStart = onStart,
                 OnComplete = onComplete,
                 OnLoop = onLoop
-            });
+            };
 
-            return id;
+            Animations.Add(model);
+
+            return model;
         }
 
         public static void Pause(AnimationModel model) {
@@ -123,6 +126,19 @@ namespace GameJAM_Devtober2021.System.Utils {
             AnimationModel model = Animations.FirstOrDefault(anim => anim.ID == id);
             if (model != null)
                 model.State = STATE.Stopped;
+        }
+
+        public static double Ease(EaseType ease, double min, double max, double time) {
+            double value = 0;
+
+            switch (ease) {
+                case EaseType.Linear: value = time; break;
+                case EaseType.CubicIn: value = Math.Pow(time, 3); break;
+                case EaseType.CubicOut: value = 1 - Math.Pow(1 - time, 3); break;
+                case EaseType.CubicInOut: value = time < .5f ? 4 * Math.Pow(time, 3) : 1 - Math.Pow(-2 * time + 2, 3) / 2; break;
+            }
+
+            return (max - min) * value + min;
         }
 
     }

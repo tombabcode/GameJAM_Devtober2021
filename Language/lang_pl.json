@@ -1,6 +1,9 @@
 ﻿{
 	"level_warehouse": "Magazyn",
-	"object_toolbox": "Skrzynka z narzedziami",
+	"level_garage": "Garaz",
+	"object_toolbox": "Skrzynka garazowa",
+	"object_shovel": "Lopata",
+	"object_box": "Karton",
 	"item_hammer": "Mlotek",
 	"item_screwdriver": "Srubokret",
 	"ui_inventory": "Ekwipunek",

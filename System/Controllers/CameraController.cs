@@ -1,4 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GameJAM_Devtober2021.System.Types;
+using GameJAM_Devtober2021.System.Utils;
+using Microsoft.Xna.Framework;
+using System;
 
 namespace GameJAM_Devtober2021.System.Controllers {
     public sealed class CameraController {
@@ -30,6 +33,11 @@ namespace GameJAM_Devtober2021.System.Controllers {
 
         public void LookBy(float x, float y) {
             Target += new Vector2(-x, y) / Scale;
+        }
+
+        public void SlideTo(float x, float y, float duration, EaseType ease, Action complete) {
+            AnimationHelper.Add(Target.X, x, duration, ease: ease, onUpdate: v => Target = new Vector2((float)v.Current, Target.Y)); 
+            AnimationHelper.Add(Target.Y, y, duration, ease: ease, onUpdate: v => Target = new Vector2(Target.X, (float)v.Current), onComplete: _ => complete?.Invoke( ));
         }
 
         public void ZoomIn(float value) {

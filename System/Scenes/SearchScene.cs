@@ -99,6 +99,8 @@ namespace GameJAM_Devtober2021.System.Scenes {
             }, null, Timeout.Infinite, 1000);
             _timer.Change(0, 1000);
 
+            _camera.LookAt(_level.LevelModel.LevelSpawnX, _level.LevelModel.LevelSpawnY);
+
             // Animate fade-in
             AnimationHelper.Add(0, 1, 600, onUpdate: v => _sceneAlpha = (float)v.Current, onComplete: _ => _isAnimating = false);
         }

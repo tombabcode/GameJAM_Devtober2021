@@ -15,6 +15,7 @@ namespace GameJAM_Devtober2021.System.Controllers {
                 { SceneType.MainMenu, new MainMenuScene(config, content, input, this) },
                 { SceneType.GameIntro, new GameIntro(config, content, input, this) },
                 { SceneType.Combat, new CombatScene(config, content, input, this) },
+                { SceneType.Settings, new SettingsScene(config, content, input, this) },
                 { SceneType.Search, new SearchScene(config, content, input, this) }
             };
 

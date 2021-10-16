@@ -44,20 +44,20 @@ namespace GameJAM_Devtober2021.System.Scenes {
                     X = _config.WindowWidth / 2,
                     Y = _config.WindowHeight / 2,
                     Align = AlignType.CM,
-                    Font = FontType.Regular,
-                    Text = LANG.Get("btn_newgame"),
+                    Font = FontType.TextRegularB,
+                    Text = LANG.Get("btn_play"),
                     TextColor = new Color(Color.Gray, 0),
                     OnHover = btn => OnButtonHover(btn),
                     OnUnhover = btn => OnButtonUnhover(btn),
-                    OnClick = btn => OnButtonAction(btn, "newgame"),
+                    OnClick = btn => OnButtonAction(btn, "play"),
                     PaddingX = 50,
                     PaddingY = 5
                 },
                 new Button(_config, _input, _content) {
                     X = _config.WindowWidth / 2,
-                    Y = _config.WindowHeight / 2 + 45f,
+                    Y = _config.WindowHeight / 2 + 50,
                     Align = AlignType.CM,
-                    Font = FontType.Regular,
+                    Font = FontType.TextRegularB,
                     Text = LANG.Get("btn_settings"),
                     TextColor = new Color(Color.Gray, 0),
                     OnHover = btn => OnButtonHover(btn),
@@ -67,9 +67,9 @@ namespace GameJAM_Devtober2021.System.Scenes {
                 },
                 new Button(_config, _input, _content) {
                     X = _config.WindowWidth / 2,
-                    Y = _config.WindowHeight / 2 + 90,
+                    Y = _config.WindowHeight / 2 + 100,
                     Align = AlignType.CM,
-                    Font = FontType.Regular,
+                    Font = FontType.TextRegularB,
                     Text = LANG.Get("btn_exit"),
                     TextColor = new Color(Color.Gray, 0),
                     OnHover = btn => OnButtonHover(btn),
@@ -84,6 +84,8 @@ namespace GameJAM_Devtober2021.System.Scenes {
                 ui.Refresh( );
 
             AudioHelper.PlayOnce(_content.MUSICMenu, "main_menu_music", true);
+            AudioHelper.SetVolume(0);
+            _ = AnimationHelper.Add(0, 1, 600, ease: EaseType.CubicIn, onUpdate: v => AudioHelper.SetVolume(_config.Volume * (float)v.Current));
         }
 
         public override void OnShow( ) {
@@ -134,8 +136,9 @@ namespace GameJAM_Devtober2021.System.Scenes {
             _isAnimating = true;
             _ = AnimationHelper.Add(1, 0, 600,
                 onUpdate: v => _sceneAlpha = (float)v.Current,
-                onComplete: model => _scene.ChangeScene(SceneType.Search)
+                onComplete: model => _scene.ChangeScene(SceneType.GameIntro)
             );
+            _ = AnimationHelper.Add(1, 0, 600, ease: EaseType.CubicOut, onUpdate: v => AudioHelper.SetVolume(_config.Volume * (float)v.Current));
         }
 
     }

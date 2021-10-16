@@ -1,0 +1,19 @@
+﻿{
+	"LevelID": "garage_0",
+	"LevelName": "level_garage",
+	"LevelSpawnX": 81,
+	"LevelSpawnY": 38,
+	"Level": 1,
+	"Objects": [
+		{
+			"ID": "box",
+			"X": 128,
+			"Y": 22
+		},
+		{
+			"ID": "shovel",
+			"X": 0,
+			"Y": 44
+		}
+	]
+}

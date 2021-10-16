@@ -22,6 +22,9 @@
     <None Update="Data\level_0.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Data\level_1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Language\lang_en.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
